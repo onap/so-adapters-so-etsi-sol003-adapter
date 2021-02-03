@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "da7c0c3d_2d42270a",
+        "filename": "readme.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 3237
+      },
+      "writtenOn": "2021-02-03T12:16:29Z",
+      "side": 1,
+      "message": "could you rephrase it better??? this adapter expose VNF LCM and Package management",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 3
+      },
+      "revId": "fcb309cf3a9ecf44d2d93bd36176118dbc351d94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b1615c23_a5344faf",
         "filename": "version.properties",
         "patchSetId": 2
