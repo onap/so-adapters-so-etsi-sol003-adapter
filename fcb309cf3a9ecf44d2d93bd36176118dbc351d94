@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7694d53_f53f38e1",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 3237
+      },
+      "writtenOn": "2021-02-03T12:13:44Z",
+      "side": 1,
+      "message": "this should be 1.7.1-SNAPSHOT",
+      "range": {
+        "startLine": 10,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 25
+      },
+      "revId": "fcb309cf3a9ecf44d2d93bd36176118dbc351d94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1615c23_a5344faf",
+        "filename": "version.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 3237
+      },
+      "writtenOn": "2021-02-03T12:13:44Z",
+      "side": 1,
+      "message": "this should be 1.8.0",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 1
+      },
+      "revId": "fcb309cf3a9ecf44d2d93bd36176118dbc351d94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
