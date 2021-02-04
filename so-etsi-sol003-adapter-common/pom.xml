@@ -5,6 +5,7 @@
     <artifactId>so-etsi-sol003-adapter</artifactId>
     <version>1.7.1-SNAPSHOT</version>
   </parent>
+  <groupId>so-etsi-sol003-adapter.common</groupId>
   <artifactId>so-etsi-sol003-adapter-common</artifactId>
   <name>SO ETSI SOL003 Adapter Common</name>
 </project>

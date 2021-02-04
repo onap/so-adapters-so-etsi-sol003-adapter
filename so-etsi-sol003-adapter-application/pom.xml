@@ -5,6 +5,7 @@
     <artifactId>so-etsi-sol003-adapter</artifactId>
     <version>1.7.1-SNAPSHOT</version>
   </parent>
+  <groupId>org.onap.so.so-etsi-sol003-adapter.application</groupId>
   <artifactId>so-etsi-sol003-adapter-application</artifactId>
   <name>SO ETSI SOL003 Application Jar</name>
 </project>
