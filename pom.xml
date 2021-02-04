@@ -6,7 +6,7 @@
         <artifactId>so</artifactId>
         <version>1.7.0-SNAPSHOT</version>
     </parent>
-    <groupId>org.onap.so.adapters</groupId>
+    <groupId>org.onap.so.so-etsi-sol003-adapter</groupId>
     <artifactId>so-etsi-sol003-adapter</artifactId>
     <version>1.7.1-SNAPSHOT</version>
     <name>SO ETSI SOL003 Adapter</name>
