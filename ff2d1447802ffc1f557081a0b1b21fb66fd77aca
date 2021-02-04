@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "358f9062_5663fbf7",
+        "filename": "so-etsi-sol003-adapter-lcm/so-etsi-sol003-adapter-lcm-ext-clients/src/main/resources/SOL003-VNFLifecycleManagement-API.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 2085
+      },
+      "writtenOn": "2021-02-04T17:46:48Z",
+      "side": 1,
+      "message": "could you remove the leading tabs?",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 17
+      },
+      "revId": "ff2d1447802ffc1f557081a0b1b21fb66fd77aca",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
