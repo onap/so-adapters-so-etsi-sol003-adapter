@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Andrew Lamb <andrew.a.lamb@est.tech>
+Code-Review+2: Byung-Woo Jun <byung-woo.jun@est.tech>
+Submitted-by: Byung-Woo Jun <byung-woo.jun@est.tech>
+Submitted-at: Thu, 04 Feb 2021 17:14:38 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/so/adapters/so-etsi-sol003-adapter/+/117489
+Project: so/adapters/so-etsi-sol003-adapter
+Branch: refs/heads/master
