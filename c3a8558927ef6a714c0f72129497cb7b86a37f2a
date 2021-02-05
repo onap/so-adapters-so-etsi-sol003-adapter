@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8d4995e8_1b851931",
+        "filename": "so-etsi-sol003-adapter-lcm/so-etsi-sol003-adapter-lcm-service/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 6750
+      },
+      "writtenOn": "2021-02-05T13:28:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d0a563df_446bb26a",
+      "range": {
+        "startLine": 68,
+        "startChar": 21,
+        "endLine": 68,
+        "endChar": 41
+      },
+      "revId": "c3a8558927ef6a714c0f72129497cb7b86a37f2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c096bb53_fbe9e231",
         "filename": "so-etsi-sol003-adapter-lcm/so-etsi-sol003-adapter-lcm-service/pom.xml",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "c3a8558927ef6a714c0f72129497cb7b86a37f2a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a94e5df_8969a305",
+        "filename": "so-etsi-sol003-adapter-lcm/so-etsi-sol003-adapter-lcm-service/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 6750
+      },
+      "writtenOn": "2021-02-05T13:28:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c096bb53_fbe9e231",
+      "range": {
+        "startLine": 69,
+        "startChar": 24,
+        "endLine": 69,
+        "endChar": 50
+      },
+      "revId": "c3a8558927ef6a714c0f72129497cb7b86a37f2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "283dbd75_d47759ed",
+        "filename": "so-etsi-sol003-adapter-lcm/so-etsi-sol003-adapter-lcm-service/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 6750
+      },
+      "writtenOn": "2021-02-05T13:28:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "89a662d6_1598c2e9",
+      "range": {
+        "startLine": 73,
+        "startChar": 21,
+        "endLine": 73,
+        "endChar": 41
+      },
+      "revId": "c3a8558927ef6a714c0f72129497cb7b86a37f2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c14ab2c6_2d361ac1",
         "filename": "so-etsi-sol003-adapter-lcm/so-etsi-sol003-adapter-lcm-service/pom.xml",
         "patchSetId": 1
@@ -91,6 +163,30 @@
       "revId": "c3a8558927ef6a714c0f72129497cb7b86a37f2a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3213e42_9d39d084",
+        "filename": "so-etsi-sol003-adapter-lcm/so-etsi-sol003-adapter-lcm-service/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 6750
+      },
+      "writtenOn": "2021-02-05T13:28:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c14ab2c6_2d361ac1",
+      "range": {
+        "startLine": 78,
+        "startChar": 21,
+        "endLine": 78,
+        "endChar": 41
+      },
+      "revId": "c3a8558927ef6a714c0f72129497cb7b86a37f2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "fdc704a7_8d1f21f3",
+        "filename": "so-etsi-sol003-adapter-lcm/so-etsi-sol003-adapter-lcm-service/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 6750
+      },
+      "writtenOn": "2021-02-05T13:28:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c59c1a41_edc90cda",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 4
+      },
+      "revId": "c3a8558927ef6a714c0f72129497cb7b86a37f2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f35101f_3bd695d6",
         "filename": "so-etsi-sol003-adapter-lcm/so-etsi-sol003-adapter-lcm-service/pom.xml",
         "patchSetId": 1
@@ -128,6 +248,24 @@
       "writtenOn": "2021-02-05T13:02:01Z",
       "side": 1,
       "message": "remove etsi-sol003-pkgm-adapter dependency i think we don\u0027t need it here",
+      "revId": "c3a8558927ef6a714c0f72129497cb7b86a37f2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f4adfa0_7e88ae20",
+        "filename": "so-etsi-sol003-adapter-lcm/so-etsi-sol003-adapter-lcm-service/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 6750
+      },
+      "writtenOn": "2021-02-05T13:28:34Z",
+      "side": 1,
+      "message": "can\u0027t remove it compilation failing . So keeping it as of now .",
+      "parentUuid": "6f35101f_3bd695d6",
       "revId": "c3a8558927ef6a714c0f72129497cb7b86a37f2a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
