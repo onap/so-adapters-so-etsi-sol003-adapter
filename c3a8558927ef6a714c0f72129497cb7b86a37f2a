@@ -91,6 +91,23 @@
       "revId": "c3a8558927ef6a714c0f72129497cb7b86a37f2a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f35101f_3bd695d6",
+        "filename": "so-etsi-sol003-adapter-lcm/so-etsi-sol003-adapter-lcm-service/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 3237
+      },
+      "writtenOn": "2021-02-05T13:02:01Z",
+      "side": 1,
+      "message": "remove etsi-sol003-pkgm-adapter dependency i think we don\u0027t need it here",
+      "revId": "c3a8558927ef6a714c0f72129497cb7b86a37f2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
