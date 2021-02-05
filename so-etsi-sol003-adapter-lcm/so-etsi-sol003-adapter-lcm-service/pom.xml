@@ -65,6 +65,11 @@
             <version>${so-core-version}</version>
         </dependency>
         <dependency>
+            <groupId>org.onap.so</groupId>
+            <artifactId>aai-client</artifactId>
+            <version>${so-core-version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.onap.so.adapters.so-etsi-sol003-adapter</groupId>
             <artifactId>so-etsi-sol003-adapter-common</artifactId>
             <version>${project.version}</version>
@@ -105,8 +110,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.onap.so.adapters</groupId>
-            <artifactId>etsi-sol003-pkgm-adapter</artifactId>
+            <groupId>org.onap.so.adapters.so-etsi-sol003-adapter.pkgm</groupId>
+            <artifactId>so-etsi-sol003-adapter-pkgm-service</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
