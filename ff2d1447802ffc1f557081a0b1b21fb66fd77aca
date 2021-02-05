@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ae40bb91_a0624128",
+        "filename": "so-etsi-sol003-adapter-application/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 3237
+      },
+      "writtenOn": "2021-02-05T09:09:46Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 8,
+        "startChar": 46,
+        "endLine": 8,
+        "endChar": 57
+      },
+      "revId": "ff2d1447802ffc1f557081a0b1b21fb66fd77aca",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "358f9062_5663fbf7",
         "filename": "so-etsi-sol003-adapter-lcm/so-etsi-sol003-adapter-lcm-ext-clients/src/main/resources/SOL003-VNFLifecycleManagement-API.json",
         "patchSetId": 1
