@@ -8,4 +8,17 @@
     </parent>
     <artifactId>so-etsi-sol003-adapter-common</artifactId>
     <name>SO ETSI SOL003 Adapter Common</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>${spring-security-oauth2-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.so</groupId>
+            <artifactId>common</artifactId>
+            <version>${so-core-version}</version>
+        </dependency>
+    </dependencies>
 </project>
