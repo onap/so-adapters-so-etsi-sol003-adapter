@@ -52,5 +52,6 @@
         <module>so-etsi-sol003-adapter-pkgm</module>
         <module>so-etsi-sol003-adapter-lcm</module>
         <module>so-etsi-sol003-adapter-application</module>
+        <module>packages</module>
     </modules>
 </project>
