@@ -73,7 +73,7 @@
                             </build>
                         </image>
                         <image>
-                            <name>${docker.image.prefix}/vnfm-adapter</name>
+                            <name>${docker.image.prefix}/so-etsi-sol003-adapter</name>
                             <build>
                                 <cleanup>try</cleanup>
                                 <dockerFile>docker-files/Dockerfile.so-app</dockerFile>
@@ -130,7 +130,7 @@
                             <goal>push</goal>
                         </goals>
                         <configuration>
-                            <image>${docker.image.prefix}/vnfm-adapter</image>
+                            <image>${docker.image.prefix}/so-etsi-sol003-adapter</image>
                         </configuration>
                     </execution>
                 </executions>
