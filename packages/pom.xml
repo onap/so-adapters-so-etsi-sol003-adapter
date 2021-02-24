@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.onap.so.adapters.so-etsi-sol003-adapter</groupId>
         <artifactId>so-etsi-sol003-adapter</artifactId>
-        <version>1.7.1-SNAPSHOT</version>
+        <version>1.8.1</version>
     </parent>
     <artifactId>packages</artifactId>
     <packaging>pom</packaging>
