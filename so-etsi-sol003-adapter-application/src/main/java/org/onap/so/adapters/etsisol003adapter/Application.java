@@ -51,7 +51,7 @@ public class Application {
      */
     public static void main(final String[] args) {
         new SpringApplication(Application.class).run(args);
-        logger.info("VnfmAdapterApplication started!");
+        logger.info("SO ETSI SOL003 Adapter Application started successfully!");
     }
 
 }
