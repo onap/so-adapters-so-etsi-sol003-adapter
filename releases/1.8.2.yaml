@@ -1,9 +1,9 @@
 ---
 distribution_type: 'container'
-container_release_tag: '1.8.1'
+container_release_tag: '1.8.2'
 project: 'so'
-log_dir: 'so-adapters-so-etsi-sol003-adapter-maven-docker-stage-master/37/'
-ref: 'f19b051ba5399bdbbd5e3145489ac6d8efd47e03'
+log_dir: 'so-adapters-so-etsi-sol003-adapter-maven-docker-stage-master/38/'
+ref: '63a3b0ee4382e5421288916acb90d3ae7c9a8865'
 containers:
     - name: 'so/so-etsi-sol003-adapter'
-      version: '1.8.2-20210314T0224'
+      version: '1.8.2-20210315T0222'
