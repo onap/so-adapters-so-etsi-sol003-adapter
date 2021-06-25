@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.onap.so.adapters.so-etsi-sol003-adapter.pkgm</groupId>
         <artifactId>so-etsi-sol003-adapter-pkgm</artifactId>
-        <version>1.8.1-SNAPSHOT</version>
+        <version>1.9.0-SNAPSHOT</version>
     </parent>
     <artifactId>so-etsi-sol003-adapter-pkgm-service</artifactId>
     <name>SO ETSI SOL003 VNF Package Management Service</name>
