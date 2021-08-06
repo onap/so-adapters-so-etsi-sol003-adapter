@@ -27,6 +27,7 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -38,8 +39,9 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.onap.aai.domain.yang.EsrSystemInfo;
 import org.onap.aai.domain.yang.EsrVnfm;
+import org.onap.so.adapters.etsi.sol003.adapter.common.GsonProvider;
 import org.onap.so.adapters.etsi.sol003.adapter.common.configuration.AbstractServiceProviderConfiguration;
-import org.onap.so.adapters.etsisol003adapter.lcm.v1.JSON;
+import org.onap.so.adapters.etsi.sol003.adapter.common.utils.LocalDateTimeTypeAdapter;
 import org.onap.so.configuration.rest.BasicHttpHeadersProvider;
 import org.onap.so.rest.service.HttpRestServiceProvider;
 import org.onap.so.rest.service.HttpRestServiceProviderImpl;
@@ -85,6 +87,12 @@ public class VnfmServiceProviderConfiguration extends AbstractServiceProviderCon
     @Qualifier(VnfmRestTemplateConfiguration.SOL003_LCM_REST_TEMPLATE)
     @Autowired
     private RestTemplate defaultRestTemplate;
+
+    @Autowired
+    private GsonProvider gsonProvider;
+    
+    private final LocalDateTimeTypeAdapter localDateTimeTypeAdapter =  new LocalDateTimeTypeAdapter(DateTimeFormatter.ISO_LOCAL_DATE);
+
 
     public HttpRestServiceProvider getHttpRestServiceProvider(final EsrVnfm vnfm) {
         if (!mapOfVnfmIdToHttpRestServiceProvider.containsKey(vnfm.getVnfmId())) {
@@ -154,7 +162,7 @@ public class VnfmServiceProviderConfiguration extends AbstractServiceProviderCon
 
     @Override
     protected Gson getGson() {
-        return new JSON().getGson();
+        return gsonProvider.getGson(localDateTimeTypeAdapter);
     }
 
 }

@@ -25,6 +25,7 @@ import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
@@ -40,7 +41,9 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.onap.logging.filter.spring.SpringClientPayloadFilter;
 import org.onap.so.adapters.etsi.sol003.adapter.common.configuration.AbstractServiceProviderConfiguration;
+import org.onap.so.adapters.etsi.sol003.adapter.common.utils.LocalDateTimeTypeAdapter;
 import org.onap.so.configuration.rest.BasicHttpHeadersProvider;
+import org.onap.so.adapters.etsi.sol003.adapter.common.GsonProvider;
 import org.onap.so.configuration.rest.HttpClientConnectionConfiguration;
 import org.onap.so.logging.jaxrs.filter.SOSpringClientFilter;
 import org.onap.so.rest.service.HttpRestServiceProvider;
@@ -75,6 +78,10 @@ public class EtsiCatalogServiceProviderConfiguration extends AbstractServiceProv
 
     private final HttpClientConnectionConfiguration clientConnectionConfiguration;
 
+    private final GsonProvider gsonProvider;
+    
+    private final LocalDateTimeTypeAdapter localDateTimeTypeAdapter;
+
     @Value("${etsi-catalog-manager.http.client.ssl.trust-store:#{null}}")
     private Resource trustStore;
     @Value("${etsi-catalog-manager.http.client.ssl.trust-store-password:#{null}}")
@@ -82,8 +89,10 @@ public class EtsiCatalogServiceProviderConfiguration extends AbstractServiceProv
 
     @Autowired
     public EtsiCatalogServiceProviderConfiguration(
-            final HttpClientConnectionConfiguration clientConnectionConfiguration) {
+            final HttpClientConnectionConfiguration clientConnectionConfiguration, final GsonProvider gsonProvider) {
         this.clientConnectionConfiguration = clientConnectionConfiguration;
+        this.gsonProvider = gsonProvider;
+        this.localDateTimeTypeAdapter =  new LocalDateTimeTypeAdapter(DateTimeFormatter.ISO_LOCAL_DATE);
     }
 
     @Bean
@@ -170,7 +179,7 @@ public class EtsiCatalogServiceProviderConfiguration extends AbstractServiceProv
 
     @Override
     protected Gson getGson() {
-        return new JSON().getGson();
+        return gsonProvider.getGson(localDateTimeTypeAdapter);
     }
 
 }

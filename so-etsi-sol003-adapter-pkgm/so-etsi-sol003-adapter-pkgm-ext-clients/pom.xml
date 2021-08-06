@@ -23,17 +23,19 @@
                         <configuration>
                             <inputSpec>${basedir}/src/main/resources/ETSI-Catalog-API.json</inputSpec>
                             <language>java</language>
-                            <library>okhttp-gson</library>
                             <output>${project.build.directory}/generated-sources/etsicatalog</output>
                             <apiPackage>org.onap.so.adapters.etsisol003adapter.pkgm.extclients.etsicatalog.api</apiPackage>
                             <modelPackage>org.onap.so.adapters.etsisol003adapter.pkgm.extclients.etsicatalog.model</modelPackage>
                             <generateApiTests>false</generateApiTests>
                             <generateModelTests>false</generateModelTests>
+                            <generateApis>false</generateApis>
+                            <generateSupportingFiles>false</generateSupportingFiles>
                             <configOptions>
                                 <sourceFolder>src/gen/java/main</sourceFolder>
                                 <withXml>true</withXml>
                                 <useRxJava2>true</useRxJava2>
                                 <serializableModel>true</serializableModel>
+                                <dateLibrary>java8</dateLibrary>
                             </configOptions>
                         </configuration>
                     </execution>
@@ -45,12 +47,13 @@
                         <configuration>
                             <inputSpec>${basedir}/src/main/resources/SOL003-VNFPackageManagement-Notification-API.json</inputSpec>
                             <language>java</language>
-                            <library>okhttp-gson</library>
                             <output>${project.build.directory}/generated-sources/sol003-vnf-packagemanagement/notification</output>
                             <apiPackage>org.onap.so.adapters.etsisol003adapter.pkgm.extclients.vnfm.notification.api</apiPackage>
                             <modelPackage>org.onap.so.adapters.etsisol003adapter.pkgm.extclients.vnfm.notification.model</modelPackage>
                             <generateApiTests>false</generateApiTests>
                             <generateModelTests>false</generateModelTests>
+                            <generateApis>false</generateApis>
+                            <generateSupportingFiles>false</generateSupportingFiles>
                             <configOptions>
                                 <sourceFolder>src/gen/java/main</sourceFolder>
                                 <withXml>true</withXml>
@@ -120,72 +123,8 @@
             <version>${swagger-core-version}</version>
         </dependency>
         <dependency>
-            <groupId>com.squareup.retrofit2</groupId>
-            <artifactId>converter-gson</artifactId>
-            <version>${retrofit-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.squareup.retrofit2</groupId>
-            <artifactId>retrofit</artifactId>
-            <version>${retrofit-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.squareup.retrofit2</groupId>
-            <artifactId>converter-scalars</artifactId>
-            <version>${retrofit-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.oltu.oauth2</groupId>
-            <artifactId>org.apache.oltu.oauth2.client</artifactId>
-            <version>${oltu-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.gsonfire</groupId>
-            <artifactId>gson-fire</artifactId>
-            <version>${gson-fire-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.threeten</groupId>
-            <artifactId>threetenbp</artifactId>
-            <version>${threetenbp-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.reactivex.rxjava2</groupId>
-            <artifactId>rxjava</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.squareup.retrofit2</groupId>
-            <artifactId>adapter-rxjava2</artifactId>
-            <version>${retrofit-version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.squareup.okio</groupId>
-            <artifactId>okio</artifactId>
-            <version>${okio-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
-            <version>${okhttp3-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>logging-interceptor</artifactId>
-            <version>${okhttp3-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.squareup.okhttp</groupId>
-            <artifactId>logging-interceptor</artifactId>
-            <version>${okhttp-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.squareup.okhttp</groupId>
-            <artifactId>okhttp</artifactId>
-            <version>${okhttp-version}</version>
         </dependency>
         <dependency>
             <groupId>javax.xml.bind</groupId>

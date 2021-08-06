@@ -32,7 +32,6 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 import java.net.URI;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -44,7 +43,7 @@ import org.onap.so.adapters.etsisol003adapter.etsicatalog.notification.model.NOT
 import org.onap.so.adapters.etsisol003adapter.etsicatalog.notification.model.PkgChangeNotification;
 import org.onap.so.adapters.etsisol003adapter.etsicatalog.notification.model.PkgOnboardingNotification;
 import org.onap.so.adapters.etsisol003adapter.etsicatalog.notification.model.PkgmLinks;
-import org.onap.so.adapters.etsisol003adapter.pkgm.JSON;
+import org.onap.so.adapters.etsi.sol003.adapter.common.GsonProvider;
 import org.onap.so.adapters.etsisol003adapter.pkgm.PackageManagementConstants;
 import org.onap.so.adapters.etsisol003adapter.pkgm.extclients.etsicatalog.model.ProblemDetails;
 import org.onap.so.adapters.etsisol003adapter.pkgm.extclients.vnfm.notification.model.VnfPackageChangeNotification;
@@ -116,6 +115,10 @@ public class EtsiSubscriptionNotificationControllerTest {
     @Autowired
     @Qualifier(CONFIGURABLE_REST_TEMPLATE)
     private RestTemplate restTemplate;
+
+    @Autowired
+    private GsonProvider gsonProvider;
+
     private MockRestServiceServer mockRestServiceServer;
 
     private TestRestTemplate testRestTemplate;
@@ -131,10 +134,9 @@ public class EtsiSubscriptionNotificationControllerTest {
         cache = cacheServiceProvider.getCache(PackageManagementConstants.PACKAGE_MANAGEMENT_SUBSCRIPTION_CACHE);
         cache.clear();
 
-        final Gson gson = JSON.createGson().registerTypeAdapter(LocalDateTime.class,
-                new EtsiSubscriptionNotificationController.LocalDateTimeTypeAdapter()).create();
+        final Gson gson = gsonProvider.getGson();
         testRestTemplate = new TestRestTemplate(
-                new RestTemplateBuilder().additionalMessageConverters(new GsonHttpMessageConverter(gson)));
+                new RestTemplateBuilder().additionalMessageConverters(new GsonHttpMessageConverter(gsonProvider.getGson())));
     }
 
 

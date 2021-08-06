@@ -27,13 +27,15 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
-import org.onap.so.adapters.etsisol003adapter.lcm.extclients.vnfm.VnfmRestTemplateConfiguration;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withBadRequest;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 import java.net.URI;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Optional;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -55,6 +57,7 @@ import org.onap.aaiclient.client.aai.AAIResourcesClient;
 import org.onap.aaiclient.client.aai.AAIVersion;
 import org.onap.aaiclient.client.aai.entities.uri.AAIBaseResourceUri;
 import org.onap.aaiclient.client.aai.entities.uri.AAIResourceUri;
+import org.onap.so.adapters.etsi.sol003.adapter.common.GsonProvider;
 import org.onap.so.adapters.etsisol003adapter.lcm.extclients.EtsiPackageProvider;
 import org.onap.so.adapters.etsisol003adapter.lcm.extclients.vnfm.VnfmRestTemplateConfiguration;
 import org.onap.so.adapters.etsisol003adapter.lcm.extclients.vnfm.model.InlineResponse200;
@@ -63,7 +66,6 @@ import org.onap.so.adapters.etsisol003adapter.lcm.extclients.vnfm.model.InlineRe
 import org.onap.so.adapters.etsisol003adapter.lcm.extclients.vnfm.model.InlineResponse201.InstantiationStateEnum;
 import org.onap.so.adapters.etsisol003adapter.lcm.extclients.vnfm.model.InlineResponse201Links;
 import org.onap.so.adapters.etsisol003adapter.lcm.extclients.vnfm.model.InlineResponse201LinksSelf;
-import org.onap.so.adapters.etsisol003adapter.lcm.lcn.JSON;
 import org.onap.so.adapters.etsisol003adapter.lcm.rest.exceptions.VnfmNotFoundException;
 import org.onap.so.adapters.etsisol003adapter.lcm.v1.model.CreateVnfRequest;
 import org.onap.so.adapters.etsisol003adapter.lcm.v1.model.CreateVnfResponse;
@@ -87,15 +89,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
-import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.ZoneOffset;
-import com.google.gson.Gson;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 public class EtsiSol003AdapterControllerTest {
+    
 
     private static final OffsetDateTime JAN_1_2019_12_00 =
             OffsetDateTime.of(LocalDateTime.of(2019, 1, 1, 12, 0), ZoneOffset.UTC);
@@ -120,7 +119,9 @@ public class EtsiSol003AdapterControllerTest {
 
     @Autowired
     EtsiSol003AdapterController controller;
-    Gson gson = new JSON().getGson();
+
+    @Autowired
+    GsonProvider gsonProvider;
 
     @Before
     public void setUp() throws Exception {
@@ -142,11 +143,11 @@ public class EtsiSol003AdapterControllerTest {
 
         final InlineResponse201 createResponse = createCreateResponse();
         mockRestServer.expect(requestTo("http://vnfm2:8080/vnf_instances"))
-                .andRespond(withSuccess(gson.toJson(createResponse), MediaType.APPLICATION_JSON));
+                .andRespond(withSuccess(gsonProvider.getGson().toJson(createResponse), MediaType.APPLICATION_JSON));
 
         mockRestServer.expect(requestTo("http://vnfm2:8080/subscriptions"))
                 .andExpect(content().json(expectedsubscriptionRequest))
-                .andRespond(withSuccess(gson.toJson(subscriptionResponse), MediaType.APPLICATION_JSON));
+                .andRespond(withSuccess(gsonProvider.getGson().toJson(subscriptionResponse), MediaType.APPLICATION_JSON));
 
         mockRestServer.expect(requestTo("http://vnfm2:8080/vnf_instances/vnfId/instantiate"))
                 .andRespond(withStatus(HttpStatus.ACCEPTED).contentType(MediaType.APPLICATION_JSON)
@@ -156,13 +157,13 @@ public class EtsiSol003AdapterControllerTest {
                 org.onap.so.adapters.etsisol003adapter.lcm.extclients.vnfm.model.InlineResponse200.OperationEnum.INSTANTIATE,
                 org.onap.so.adapters.etsisol003adapter.lcm.extclients.vnfm.model.InlineResponse200.OperationStateEnum.PROCESSING);
         mockRestServer.expect(requestTo("http://vnfm2:8080/vnf_lcm_op_occs/123456"))
-                .andRespond(withSuccess(gson.toJson(firstOperationQueryResponse), MediaType.APPLICATION_JSON));
+                .andRespond(withSuccess(gsonProvider.getGson().toJson(firstOperationQueryResponse), MediaType.APPLICATION_JSON));
 
         final InlineResponse200 secondOperationQueryReponse = createOperationQueryResponse(
                 org.onap.so.adapters.etsisol003adapter.lcm.extclients.vnfm.model.InlineResponse200.OperationEnum.INSTANTIATE,
                 org.onap.so.adapters.etsisol003adapter.lcm.extclients.vnfm.model.InlineResponse200.OperationStateEnum.COMPLETED);
         mockRestServer.expect(requestTo("http://vnfm2:8080/vnf_lcm_op_occs/123456"))
-                .andRespond(withSuccess(gson.toJson(secondOperationQueryReponse), MediaType.APPLICATION_JSON));
+                .andRespond(withSuccess(gsonProvider.getGson().toJson(secondOperationQueryReponse), MediaType.APPLICATION_JSON));
 
         // Invoke the create request
 
@@ -217,7 +218,7 @@ public class EtsiSol003AdapterControllerTest {
 
         final InlineResponse201 reponse = new InlineResponse201();
         mockRestServer.expect(requestTo(new URI("http://vnfm:8080/vnfs/myTestVnfIdOnVnfm")))
-                .andRespond(withSuccess(gson.toJson(reponse), MediaType.APPLICATION_JSON));
+                .andRespond(withSuccess(gsonProvider.getGson().toJson(reponse), MediaType.APPLICATION_JSON));
 
         controller.vnfCreate("myTestVnfId", createVnfRequest, "asadas", "so", "1213");
     }
@@ -245,7 +246,7 @@ public class EtsiSol003AdapterControllerTest {
 
         final InlineResponse201 createResponse = createCreateResponse();
         mockRestServer.expect(requestTo("http://vnfm2:8080/vnf_instances"))
-                .andRespond(withSuccess(gson.toJson(createResponse), MediaType.APPLICATION_JSON));
+                .andRespond(withSuccess(gsonProvider.getGson().toJson(createResponse), MediaType.APPLICATION_JSON));
 
         mockRestServer.expect(requestTo("http://vnfm2:8080/subscriptions")).andRespond(withBadRequest());
 
@@ -293,13 +294,13 @@ public class EtsiSol003AdapterControllerTest {
                 org.onap.so.adapters.etsisol003adapter.lcm.extclients.vnfm.model.InlineResponse200.OperationEnum.TERMINATE,
                 org.onap.so.adapters.etsisol003adapter.lcm.extclients.vnfm.model.InlineResponse200.OperationStateEnum.PROCESSING);
         mockRestServer.expect(requestTo("http://vnfm1:8080/vnf_lcm_op_occs/1234567"))
-                .andRespond(withSuccess(gson.toJson(firstOperationQueryResponse), MediaType.APPLICATION_JSON));
+                .andRespond(withSuccess(gsonProvider.getGson().toJson(firstOperationQueryResponse), MediaType.APPLICATION_JSON));
 
         final InlineResponse200 secondOperationQueryReponse = createOperationQueryResponse(
                 org.onap.so.adapters.etsisol003adapter.lcm.extclients.vnfm.model.InlineResponse200.OperationEnum.TERMINATE,
                 org.onap.so.adapters.etsisol003adapter.lcm.extclients.vnfm.model.InlineResponse200.OperationStateEnum.COMPLETED);
         mockRestServer.expect(requestTo("http://vnfm1:8080/vnf_lcm_op_occs/1234567"))
-                .andRespond(withSuccess(gson.toJson(secondOperationQueryReponse), MediaType.APPLICATION_JSON));
+                .andRespond(withSuccess(gsonProvider.getGson().toJson(secondOperationQueryReponse), MediaType.APPLICATION_JSON));
 
         final RequestEntity<Void> request = RequestEntity
                 .delete(new URI("http://localhost:" + port + "/so/vnfm-adapter/v1/vnfs/myTestVnfId"))
@@ -340,7 +341,7 @@ public class EtsiSol003AdapterControllerTest {
         final InlineResponse201 reponse = new InlineResponse201();
         reponse.setInstantiationState(InstantiationStateEnum.NOT_INSTANTIATED);
         mockRestServer.expect(requestTo(new URI("http://vnfm:8080/vnfs/myTestVnfIdOnVnfm")))
-                .andRespond(withSuccess(gson.toJson(reponse), MediaType.APPLICATION_JSON));
+                .andRespond(withSuccess(gsonProvider.getGson().toJson(reponse), MediaType.APPLICATION_JSON));
 
         mockRestServer.expect(requestTo("http://vnfm:8080/vnfs/myTestVnfIdOnVnfm"))
                 .andRespond(withStatus(HttpStatus.NO_CONTENT).contentType(MediaType.APPLICATION_JSON));

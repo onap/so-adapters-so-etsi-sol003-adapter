@@ -22,12 +22,11 @@ package org.onap.so.adapters.etsisol003adapter.pkgm.rest;
 
 import static org.onap.so.adapters.etsi.sol003.adapter.common.CommonConstants.ETSI_SUBSCRIPTION_NOTIFICATION_CONTROLLER_BASE_URL;
 import static org.slf4j.LoggerFactory.getLogger;
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.AbstractMap;
 import java.util.Map.Entry;
 import javax.ws.rs.core.MediaType;
+import org.onap.so.adapters.etsi.sol003.adapter.common.utils.LocalDateTimeTypeAdapter;
 import org.onap.so.adapters.etsisol003adapter.etsicatalog.notification.model.PkgChangeNotification;
 import org.onap.so.adapters.etsisol003adapter.etsicatalog.notification.model.PkgOnboardingNotification;
 import org.onap.so.adapters.etsisol003adapter.pkgm.rest.exceptions.InternalServerErrorException;
@@ -45,9 +44,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 
 /**
  * This controller handles the ETSI Subscription Notification Endpoints.
@@ -135,32 +131,6 @@ public class EtsiSubscriptionNotificationController {
         }
         throw new NotificationTypeNotSupportedException(
                 "Unable to parse notification type in object \n" + notification);
-    }
-
-    public static class LocalDateTimeTypeAdapter extends TypeAdapter<LocalDateTime> {
-
-        private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-        @Override
-        public void write(final JsonWriter out, final LocalDateTime localDateTime) throws IOException {
-            if (localDateTime == null) {
-                out.nullValue();
-            } else {
-                out.value(FORMATTER.format(localDateTime));
-            }
-        }
-
-        @Override
-        public LocalDateTime read(final JsonReader in) throws IOException {
-            switch (in.peek()) {
-                case NULL:
-                    in.nextNull();
-                    return null;
-                default:
-                    final String dateTime = in.nextString();
-                    return LocalDateTime.parse(dateTime, FORMATTER);
-            }
-        }
     }
 
 }
