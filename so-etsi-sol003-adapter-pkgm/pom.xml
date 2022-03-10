@@ -10,6 +10,7 @@
     <artifactId>so-etsi-sol003-adapter-pkgm</artifactId>
     <name>SO ETSI SOL003 VNF Package Management</name>
     <packaging>pom</packaging>
+
     <modules>
         <module>so-etsi-sol003-adapter-pkgm-api</module>
         <module>so-etsi-sol003-adapter-pkgm-ext-clients</module>
