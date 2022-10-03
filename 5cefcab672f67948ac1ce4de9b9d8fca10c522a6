@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48ef4f71_01af25b0",
+        "filename": "so-etsi-sol003-adapter-lcm/so-etsi-sol003-adapter-lcm-service/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 3237
+      },
+      "writtenOn": "2022-10-03T09:05:01Z",
+      "side": 1,
+      "message": "extract version to properties",
+      "range": {
+        "startLine": 100,
+        "startChar": 21,
+        "endLine": 100,
+        "endChar": 32
+      },
+      "revId": "5cefcab672f67948ac1ce4de9b9d8fca10c522a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
