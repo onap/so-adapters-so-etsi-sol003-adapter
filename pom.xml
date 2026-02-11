@@ -98,6 +98,94 @@
                     </execution>
                 </executions>
             </plugin>
+            
+<!--  Added groovy maven plugin, maven-surefire-plugin, maven-failsafe-plugin  (First one is for dependencies and remaining two are for testing test cases)  -->
+            
+              <plugin>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>groovy-maven-plugin</artifactId>
+                <version>2.1.1</version>
+                <executions>
+                  <!-- set absolute base path from super pom -->
+                  <execution>
+                    <id>find-basepath</id>
+                    <phase>validate</phase>
+                    <goals>
+                      <goal>execute</goal>
+                    </goals>
+                    <configuration>
+                      <source>
+                        <![CDATA[
+                            import java.io.File;
+                            log.info('## define projects super pom absolute path through basepath_marker')
+                            String p = "basepath_marker";
+                            File f = null;
+                            if( p != null ) {
+                                def _max_child_poms = 0
+                                while( _max_child_poms++ < 5 ) {
+                                    f = new File( p );
+                                    if( f.exists() ) {
+                                        break;
+                                    }
+                                    p = "../" + p;
+                                }
+                            }
+                            if( f != null ) {
+                                String basePath = f.getCanonicalPath();
+                                basePath = basePath.substring( 0, basePath.lastIndexOf( File.separator ) );
+                                project.properties['base-path'] = basePath.replace( '\\' , '/');
+                                log.info(' - used base path = ' + project.properties['base-path'] );
+                            } else {
+                                log.error( 'Could not find basepath_marker marker file!' );
+                                System.stop( 0 );
+                            }
+                        ]]>
+                      </source>
+                    </configuration>
+                  </execution>
+                </executions>
+              </plugin>
+        
+                <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-surefire-plugin</artifactId>
+                  <version>3.0.0-M9</version>
+                  <dependencies>
+                    <dependency>
+                      <groupId>org.junit.jupiter</groupId>
+                      <artifactId>junit-jupiter-engine</artifactId>
+                      <version>5.5.2</version>
+                    </dependency>
+                  </dependencies>
+                  <configuration>
+                    <systemPropertyVariables>
+                      <so.log.level>DEBUG</so.log.level>
+                    </systemPropertyVariables>
+                    <rerunFailingTestsCount>2</rerunFailingTestsCount>
+                    <parallel>classes</parallel>
+                    <useUnlimitedThreads>false</useUnlimitedThreads>
+                    <threadCount>1</threadCount>
+        
+                  <argLine>-Xms512m -Xmx1024m</argLine>
+                  <forkCount>1</forkCount>
+                  <reuseForks>true</reuseForks>
+        
+                  </configuration>
+                </plugin>
+        
+                <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-failsafe-plugin</artifactId>
+                  <version>2.22.2</version>
+                  <configuration>
+                    <skip>true</skip>
+                    <systemPropertyVariables>
+                      <so.log.level>DEBUG</so.log.level>
+                    </systemPropertyVariables>
+                    <rerunFailingTestsCount>2</rerunFailingTestsCount>
+                  </configuration>
+                </plugin>
+            
         </plugins>
     </build>
 
