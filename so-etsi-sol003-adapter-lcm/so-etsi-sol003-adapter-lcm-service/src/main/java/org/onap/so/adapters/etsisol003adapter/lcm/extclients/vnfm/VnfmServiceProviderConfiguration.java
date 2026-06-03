@@ -42,7 +42,7 @@ import org.onap.aai.domain.yang.EsrVnfm;
 import org.onap.so.adapters.etsi.sol003.adapter.common.GsonProvider;
 import org.onap.so.adapters.etsi.sol003.adapter.common.configuration.AbstractServiceProviderConfiguration;
 import org.onap.so.adapters.etsi.sol003.adapter.common.utils.LocalDateTimeTypeAdapter;
-import org.onap.so.configuration.rest.BasicHttpHeadersProvider;
+import org.onap.so.configuration.BasicHttpHeadersProvider;
 import org.onap.so.rest.service.HttpRestServiceProvider;
 import org.onap.so.rest.service.HttpRestServiceProviderImpl;
 import org.slf4j.Logger;

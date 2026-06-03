@@ -22,7 +22,7 @@ package org.onap.so.adapters.etsisol003adapter.pkgm.subscriptionmgmt;
 import static org.onap.so.adapters.etsisol003adapter.pkgm.extclients.vnfm.VnfmHttpServiceProviderConfiguration.VNFM_ADAPTER_HTTP_SERVICE_PROVIDER_BEAN;
 import java.nio.charset.StandardCharsets;
 import org.apache.commons.codec.binary.Base64;
-import org.onap.so.configuration.rest.BasicHttpHeadersProvider;
+import org.onap.so.configuration.BasicHttpHeadersProvider;
 import org.onap.so.rest.service.HttpRestServiceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

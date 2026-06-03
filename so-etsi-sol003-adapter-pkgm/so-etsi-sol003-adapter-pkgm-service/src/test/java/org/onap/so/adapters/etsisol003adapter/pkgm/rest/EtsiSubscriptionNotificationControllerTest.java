@@ -52,7 +52,7 @@ import org.onap.so.adapters.etsisol003adapter.pkgm.model.PkgmSubscriptionRequest
 import org.onap.so.adapters.etsisol003adapter.pkgm.model.SubscriptionsAuthentication;
 import org.onap.so.adapters.etsisol003adapter.pkgm.model.SubscriptionsAuthenticationParamsBasic;
 import org.onap.so.adapters.etsisol003adapter.pkgm.model.SubscriptionsAuthenticationParamsOauth2ClientCredentials;
-import org.onap.so.configuration.rest.BasicHttpHeadersProvider;
+import org.onap.so.configuration.BasicHttpHeadersProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;

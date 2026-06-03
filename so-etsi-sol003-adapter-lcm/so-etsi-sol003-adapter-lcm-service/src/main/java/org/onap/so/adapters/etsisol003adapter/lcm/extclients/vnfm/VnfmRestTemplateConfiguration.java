@@ -20,7 +20,7 @@
 package org.onap.so.adapters.etsisol003adapter.lcm.extclients.vnfm;
 
 import org.onap.logging.filter.spring.SpringClientPayloadFilter;
-import org.onap.so.configuration.rest.HttpComponentsClientConfiguration;
+import org.onap.so.configuration.HttpComponentsClientConfiguration;
 import org.onap.so.logging.jaxrs.filter.SOSpringClientFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

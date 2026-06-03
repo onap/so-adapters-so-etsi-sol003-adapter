@@ -22,7 +22,7 @@ package org.onap.so.adapters.etsisol003adapter.pkgm.extclients.vnfm;
 import static org.onap.so.client.RestTemplateConfig.CONFIGURABLE_REST_TEMPLATE;
 import org.onap.so.adapters.etsi.sol003.adapter.common.configuration.AbstractServiceProviderConfiguration;
 import org.onap.so.adapters.etsi.sol003.adapter.common.GsonProvider;
-import org.onap.so.configuration.rest.BasicHttpHeadersProvider;
+import org.onap.so.configuration.BasicHttpHeadersProvider;
 import org.onap.so.rest.service.HttpRestServiceProvider;
 import org.onap.so.rest.service.HttpRestServiceProviderImpl;
 import org.springframework.beans.factory.annotation.Autowired;

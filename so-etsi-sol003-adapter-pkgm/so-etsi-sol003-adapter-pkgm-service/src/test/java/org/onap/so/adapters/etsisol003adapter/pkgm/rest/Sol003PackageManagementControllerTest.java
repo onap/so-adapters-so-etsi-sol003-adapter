@@ -46,7 +46,7 @@ import org.onap.so.adapters.etsisol003adapter.pkgm.extclients.etsicatalog.model.
 import org.onap.so.adapters.etsisol003adapter.pkgm.extclients.etsicatalog.model.VnfPkgInfo;
 import org.onap.so.adapters.etsisol003adapter.pkgm.model.InlineResponse2001;
 import org.onap.so.adapters.etsisol003adapter.pkgm.model.VnfPackagesLinks;
-import org.onap.so.configuration.rest.BasicHttpHeadersProvider;
+import org.onap.so.configuration.BasicHttpHeadersProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;

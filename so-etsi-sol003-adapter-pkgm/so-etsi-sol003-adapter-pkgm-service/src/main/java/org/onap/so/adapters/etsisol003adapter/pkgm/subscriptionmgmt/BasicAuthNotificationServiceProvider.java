@@ -22,7 +22,7 @@ package org.onap.so.adapters.etsisol003adapter.pkgm.subscriptionmgmt;
 import static org.slf4j.LoggerFactory.getLogger;
 import org.onap.so.adapters.etsisol003adapter.pkgm.model.SubscriptionsAuthentication;
 import org.onap.so.adapters.etsisol003adapter.pkgm.model.SubscriptionsAuthentication.AuthTypeEnum;
-import org.onap.so.configuration.rest.HttpHeadersProvider;
+import org.onap.so.configuration.HttpHeadersProvider;
 import org.onap.so.rest.service.HttpRestServiceProvider;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;

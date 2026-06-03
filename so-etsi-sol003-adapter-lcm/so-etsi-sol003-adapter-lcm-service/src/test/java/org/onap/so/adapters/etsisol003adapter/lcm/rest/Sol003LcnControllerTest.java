@@ -25,7 +25,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import org.onap.so.adapters.etsisol003adapter.lcm.extclients.vnfm.VnfmRestTemplateConfiguration;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
@@ -147,7 +147,7 @@ public class Sol003LcnControllerTest {
         ResponseEntity<Void> response = controller.lcnVnfLcmOperationOccurrenceNotificationPost(startingNotification);
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
 
-        verifyZeroInteractions(aaiResourcesClient);
+        verifyNoInteractions(aaiResourcesClient);
 
         final VnfLcmOperationOccurrenceNotification processingNotification =
                 new VnfLcmOperationOccurrenceNotification();
@@ -157,7 +157,7 @@ public class Sol003LcnControllerTest {
         response = controller.lcnVnfLcmOperationOccurrenceNotificationPost(processingNotification);
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
 
-        verifyZeroInteractions(aaiResourcesClient);
+        verifyNoInteractions(aaiResourcesClient);
     }
 
     @Test
