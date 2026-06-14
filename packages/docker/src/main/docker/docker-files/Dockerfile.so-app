@@ -6,6 +6,7 @@ ENV http_proxy=$HTTP_PROXY
 ARG https_proxy
 ENV HTTPS_PROXY=$https_proxy
 ENV https_proxy=$HTTPS_PROXY
+ENV JVM_ARGS="-XX:MaxRAMPercentage=50.0"
 
 USER root
 RUN mkdir -p /app/config
