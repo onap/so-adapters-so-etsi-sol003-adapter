@@ -16,7 +16,7 @@
       },
       "applicabilityExpressionResult": {},
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"label:Code-Review=MAX,user=non_uploader AND -label:Code-Review=MIN"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["label:Code-Review=MAX,user=non_uploader","label:Code-Review=MIN"]}
+        "value": {"expression":{"expressionString":"label:Code-Review=MAX,user=non_uploader AND -label:Code-Review=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Code-Review=MAX,user=non_uploader"],"failingAtoms":["label:Code-Review=MIN"]}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "0156fb95cae37c85dbe94b09bdba06fc1cbbc6e7",
@@ -41,7 +41,7 @@
       },
       "applicabilityExpressionResult": {},
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"label:Verified=MAX,user=onap.required.gha AND label:Verified=MAX,count>=3 AND label:Verified=MAX,user=non_uploader AND -label:Verified=MIN"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["label:Verified=MAX,user=onap.required.gha","label:Verified=MAX,user=non_uploader","label:Verified=MIN","label:Verified=MAX,count>=3"]}
+        "value": {"expression":{"expressionString":"label:Verified=MAX,user=onap.required.gha AND label:Verified=MAX,count>=3 AND label:Verified=MAX,user=non_uploader AND -label:Verified=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Verified=MAX,user=onap.required.gha","label:Verified=MAX,user=non_uploader","label:Verified=MAX,count>=3"],"failingAtoms":["label:Verified=MIN"]}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "0156fb95cae37c85dbe94b09bdba06fc1cbbc6e7",
