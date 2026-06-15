@@ -25,9 +25,7 @@ import static org.onap.so.adapters.etsi.sol003.adapter.common.CommonConstants.OP
 import static org.onap.so.adapters.etsi.sol003.adapter.common.CommonConstants.PACKAGE_MANAGEMENT_BASE_URL;
 import static org.slf4j.LoggerFactory.getLogger;
 import java.net.URI;
-import java.security.GeneralSecurityException;
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.onap.so.utils.CryptoUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,15 +46,12 @@ public class VnfmAdapterUrlProvider {
     private static final int LIMIT = 2;
 
     private final String vnfmAdapterEndpoint;
-    private final String msoKeyString;
     private final String vnfmAdapterAuth;
 
     @Autowired
     public VnfmAdapterUrlProvider(@Value("${vnfmadapter.endpoint}") final String vnfmAdapterEndpoint,
-            @Value("${mso.key}") final String msoKeyString,
-            @Value("${vnfmadapter.auth:BF29BA36F0CFE1C05507781F6B97EFBCA7EFAC9F595954D465FC43F646883EF585C20A58CBB02528A6FAAC}") final String vnfmAdapterAuth) {
+            @Value("${vnfmadapter.auth:vnfm:vnfm}") final String vnfmAdapterAuth) {
         this.vnfmAdapterEndpoint = vnfmAdapterEndpoint;
-        this.msoKeyString = msoKeyString;
         this.vnfmAdapterAuth = vnfmAdapterAuth;
     }
 
@@ -68,9 +63,8 @@ public class VnfmAdapterUrlProvider {
         return URI.create(getSubscriptionUriString(subscriptionId));
     }
 
-    public ImmutablePair<String, String> getDecryptAuth() throws GeneralSecurityException {
-        final String decryptedAuth = CryptoUtils.decrypt(vnfmAdapterAuth, msoKeyString);
-        final String[] auth = decryptedAuth.split(COLON, LIMIT);
+    public ImmutablePair<String, String> getDecryptAuth() {
+        final String[] auth = vnfmAdapterAuth.split(COLON, LIMIT);
         if (auth.length > 1) {
             return ImmutablePair.of(auth[0], auth[1]);
         }
