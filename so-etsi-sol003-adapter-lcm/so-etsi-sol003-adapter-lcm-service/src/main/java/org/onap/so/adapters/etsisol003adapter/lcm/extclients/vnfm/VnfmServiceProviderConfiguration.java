@@ -33,10 +33,12 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.net.ssl.SSLContext;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.client.HttpClient;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.io.HttpClientConnectionManager;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
+import org.apache.hc.core5.ssl.SSLContextBuilder;
 import org.onap.aai.domain.yang.EsrSystemInfo;
 import org.onap.aai.domain.yang.EsrVnfm;
 import org.onap.so.adapters.etsi.sol003.adapter.common.GsonProvider;
@@ -53,9 +55,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestExecution;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
-import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
+import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.web.client.RestTemplate;
 import com.google.gson.Gson;
 
@@ -122,17 +136,73 @@ public class VnfmServiceProviderConfiguration extends AbstractServiceProviderCon
         return defaultRestTemplate;
     }
 
-    private OAuth2RestTemplate createOAuth2RestTemplate(final EsrSystemInfo esrSystemInfo) {
-        logger.debug("Getting OAuth2RestTemplate ...");
-        final ClientCredentialsResourceDetails resourceDetails = new ClientCredentialsResourceDetails();
-        resourceDetails.setId(UUID.randomUUID().toString());
-        resourceDetails.setClientId(esrSystemInfo.getUserName());
-        resourceDetails.setClientSecret(esrSystemInfo.getPassword());
-        resourceDetails.setAccessTokenUri(
+    /**
+     * Builds a {@link RestTemplate} that attaches a {@code client_credentials} bearer token (obtained from the VNFM's
+     * token endpoint) to every outbound request. Reimplemented for Spring Security 6 using an
+     * {@link OAuth2AuthorizedClientManager} in place of the removed {@code OAuth2RestTemplate} /
+     * {@code ClientCredentialsResourceDetails}. The token URI, client id and client secret are derived from the AAI
+     * {@link EsrSystemInfo} exactly as before.
+     */
+    private RestTemplate createOAuth2RestTemplate(final EsrSystemInfo esrSystemInfo) {
+        logger.debug("Getting OAuth2 client_credentials RestTemplate ...");
+        final String tokenUri =
                 oauthEndpoint == null ? esrSystemInfo.getServiceUrl().replace("vnflcm/v1", "oauth/token")
-                        : oauthEndpoint);
-        resourceDetails.setGrantType("client_credentials");
-        return new OAuth2RestTemplate(resourceDetails);
+                        : oauthEndpoint;
+        final ClientRegistration clientRegistration = ClientRegistration
+                .withRegistrationId(UUID.randomUUID().toString())
+                .tokenUri(tokenUri).clientId(esrSystemInfo.getUserName()).clientSecret(esrSystemInfo.getPassword())
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC).build();
+
+        final OAuth2AuthorizedClientManager authorizedClientManager = createAuthorizedClientManager(clientRegistration);
+
+        final RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getInterceptors()
+                .add(new OAuth2ClientCredentialsInterceptor(authorizedClientManager, clientRegistration));
+        return restTemplate;
+    }
+
+    private OAuth2AuthorizedClientManager createAuthorizedClientManager(final ClientRegistration clientRegistration) {
+        final ClientRegistrationRepository clientRegistrationRepository =
+                new InMemoryClientRegistrationRepository(clientRegistration);
+        final AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientManager =
+                new AuthorizedClientServiceOAuth2AuthorizedClientManager(clientRegistrationRepository,
+                        new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository));
+        authorizedClientManager.setAuthorizedClientProvider(
+                OAuth2AuthorizedClientProviderBuilder.builder().clientCredentials().build());
+        return authorizedClientManager;
+    }
+
+    /**
+     * Fetches (and caches, within the {@link OAuth2AuthorizedClientManager}) a {@code client_credentials} access token
+     * and adds it as a {@code Bearer} authorization header on each outbound request.
+     */
+    private static class OAuth2ClientCredentialsInterceptor implements ClientHttpRequestInterceptor {
+
+        private final OAuth2AuthorizedClientManager authorizedClientManager;
+        private final ClientRegistration clientRegistration;
+
+        OAuth2ClientCredentialsInterceptor(final OAuth2AuthorizedClientManager authorizedClientManager,
+                final ClientRegistration clientRegistration) {
+            this.authorizedClientManager = authorizedClientManager;
+            this.clientRegistration = clientRegistration;
+        }
+
+        @Override
+        public ClientHttpResponse intercept(final org.springframework.http.HttpRequest request, final byte[] body,
+                final ClientHttpRequestExecution execution) throws IOException {
+            final OAuth2AuthorizeRequest authorizeRequest =
+                    OAuth2AuthorizeRequest.withClientRegistrationId(clientRegistration.getRegistrationId())
+                            .principal(clientRegistration.getClientId()).build();
+            final OAuth2AuthorizedClient authorizedClient = authorizedClientManager.authorize(authorizeRequest);
+            if (authorizedClient != null && authorizedClient.getAccessToken() != null) {
+                request.getHeaders().setBearerAuth(authorizedClient.getAccessToken().getTokenValue());
+            } else {
+                logger.error("Unable to obtain OAuth2 client_credentials access token from token endpoint {}",
+                        clientRegistration.getProviderDetails().getTokenUri());
+            }
+            return execution.execute(request, body);
+        }
     }
 
     private void setTrustStore(final RestTemplate restTemplate) {
@@ -150,7 +220,9 @@ public class VnfmServiceProviderConfiguration extends AbstractServiceProviderCon
             }
             logger.info("Setting truststore: {}", trustStore.getURL());
             final SSLConnectionSocketFactory socketFactory = new SSLConnectionSocketFactory(sslContext);
-            final HttpClient httpClient = HttpClients.custom().setSSLSocketFactory(socketFactory).build();
+            final HttpClientConnectionManager connectionManager =
+                    PoolingHttpClientConnectionManagerBuilder.create().setSSLSocketFactory(socketFactory).build();
+            final HttpClient httpClient = HttpClients.custom().setConnectionManager(connectionManager).build();
             final HttpComponentsClientHttpRequestFactory factory =
                     new HttpComponentsClientHttpRequestFactory(httpClient);
             restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(factory));

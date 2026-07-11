@@ -24,7 +24,7 @@ import static org.onap.so.adapters.etsi.sol003.adapter.common.CommonConstants.PA
 import static org.onap.so.adapters.etsisol003adapter.pkgm.PackageManagementConstants.APPLICATION_ZIP;
 import static org.slf4j.LoggerFactory.getLogger;
 import java.util.Optional;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import org.onap.so.adapters.etsisol003adapter.pkgm.extclients.etsicatalog.EtsiCatalogServiceProvider;
 import org.onap.so.adapters.etsisol003adapter.pkgm.extclients.etsicatalog.model.ProblemDetails;
 import org.onap.so.adapters.etsisol003adapter.pkgm.model.InlineResponse2001;

@@ -25,7 +25,7 @@ import static org.onap.so.adapters.etsisol003adapter.lcm.LifeCycleManagementCons
 import static org.slf4j.LoggerFactory.getLogger;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import org.onap.aai.domain.yang.EsrVnfm;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.so.adapters.etsisol003adapter.lcm.extclients.aai.AaiHelper;

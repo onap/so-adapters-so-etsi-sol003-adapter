@@ -26,7 +26,7 @@ import java.net.URI;
 import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Optional;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import org.onap.so.adapters.etsisol003adapter.pkgm.extclients.etsicatalog.model.ProblemDetails;
 import org.onap.so.adapters.etsisol003adapter.pkgm.model.InlineResponse201;
 import org.onap.so.adapters.etsisol003adapter.pkgm.model.PkgmSubscriptionRequest;

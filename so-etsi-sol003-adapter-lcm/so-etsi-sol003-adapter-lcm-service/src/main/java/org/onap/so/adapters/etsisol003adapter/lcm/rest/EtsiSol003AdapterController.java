@@ -21,8 +21,8 @@
 package org.onap.so.adapters.etsisol003adapter.lcm.rest;
 
 import static org.onap.so.adapters.etsi.sol003.adapter.common.CommonConstants.BASE_URL;
-import javax.validation.Valid;
-import javax.ws.rs.core.MediaType;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.core.MediaType;
 import org.onap.logging.ref.slf4j.ONAPLogConstants;
 import org.onap.so.adapters.etsisol003adapter.lcm.jobmanagement.JobManager;
 import org.onap.so.adapters.etsisol003adapter.lcm.lifecycle.LifecycleManager;

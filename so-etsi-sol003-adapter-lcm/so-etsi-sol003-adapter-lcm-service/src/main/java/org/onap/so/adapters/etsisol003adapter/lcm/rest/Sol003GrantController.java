@@ -24,7 +24,7 @@ import static org.onap.so.adapters.etsi.sol003.adapter.common.CommonConstants.BA
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import org.onap.so.adapters.etsisol003adapter.lcm.extclients.aai.AaiHelper;
 import org.onap.so.adapters.etsisol003adapter.lcm.extclients.aai.AaiServiceProvider;
 import org.onap.so.adapters.etsisol003adapter.lcm.extclients.vnfm.VnfmHelper;

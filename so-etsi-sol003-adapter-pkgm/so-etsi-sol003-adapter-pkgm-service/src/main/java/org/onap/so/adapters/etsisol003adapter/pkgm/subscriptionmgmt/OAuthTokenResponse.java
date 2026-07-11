@@ -20,7 +20,7 @@
 package org.onap.so.adapters.etsisol003adapter.pkgm.subscriptionmgmt;
 
 import java.io.Serializable;
-import javax.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElement;
 import com.google.gson.annotations.SerializedName;
 
 /**

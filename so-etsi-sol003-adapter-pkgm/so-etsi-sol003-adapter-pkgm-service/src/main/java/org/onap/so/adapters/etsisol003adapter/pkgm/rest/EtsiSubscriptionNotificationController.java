@@ -25,7 +25,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 import java.time.LocalDateTime;
 import java.util.AbstractMap;
 import java.util.Map.Entry;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import org.onap.so.adapters.etsi.sol003.adapter.common.utils.LocalDateTimeTypeAdapter;
 import org.onap.so.adapters.etsisol003adapter.etsicatalog.notification.model.PkgChangeNotification;
 import org.onap.so.adapters.etsisol003adapter.etsicatalog.notification.model.PkgOnboardingNotification;

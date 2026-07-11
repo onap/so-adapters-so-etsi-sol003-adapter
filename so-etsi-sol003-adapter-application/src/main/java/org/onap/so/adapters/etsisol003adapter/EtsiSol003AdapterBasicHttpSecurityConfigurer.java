@@ -22,6 +22,7 @@
 
 package org.onap.so.adapters.etsisol003adapter;
 
+import java.util.Arrays;
 import org.onap.so.adapters.etsi.sol003.adapter.common.CommonConstants;
 import org.onap.so.security.HttpSecurityConfigurer;
 import org.onap.so.security.SoUserCredentialConfiguration;
@@ -30,6 +31,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -47,16 +50,26 @@ public class EtsiSol003AdapterBasicHttpSecurityConfigurer implements HttpSecurit
     @Value("${server.ssl.client-auth:none}")
     private String clientAuth;
 
+    private static RequestMatcher[] antMatchers(final String... patterns) {
+        return Arrays.stream(patterns).map(AntPathRequestMatcher::new).toArray(RequestMatcher[]::new);
+    }
+
     @Override
     public void configure(final HttpSecurity http) throws Exception {
         if (("need").equalsIgnoreCase(clientAuth)) {
-            http.csrf().disable().authorizeRequests().anyRequest().permitAll();
+            http.csrf(csrf -> csrf.disable())
+                    .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
         } else {
-            http.csrf().disable().authorizeRequests().antMatchers("/manage/health", "/manage/info").permitAll()
-                    .antMatchers(HttpMethod.GET, CommonConstants.ETSI_SUBSCRIPTION_NOTIFICATION_BASE_URL).permitAll()
-                    .antMatchers("/**")
-                    .hasAnyRole(StringUtils.collectionToDelimitedString(soUserCredentialConfiguration.getRoles(), ","))
-                    .and().httpBasic();
+            final String roles =
+                    StringUtils.collectionToDelimitedString(soUserCredentialConfiguration.getRoles(), ",");
+            http.csrf(csrf -> csrf.disable())
+                    .authorizeHttpRequests(authorize -> authorize
+                            .requestMatchers(antMatchers("/manage/health", "/manage/info")).permitAll()
+                            .requestMatchers(new AntPathRequestMatcher(
+                                    CommonConstants.ETSI_SUBSCRIPTION_NOTIFICATION_BASE_URL, HttpMethod.GET.name()))
+                            .permitAll().requestMatchers(antMatchers("/**")).hasAnyRole(roles.split(",")))
+                    .httpBasic(httpBasic -> {
+                    });
         }
     }
 }

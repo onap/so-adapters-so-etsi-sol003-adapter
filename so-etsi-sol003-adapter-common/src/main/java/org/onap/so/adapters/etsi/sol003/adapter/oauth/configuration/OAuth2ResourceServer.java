@@ -20,33 +20,48 @@
 
 package org.onap.so.adapters.etsi.sol003.adapter.oauth.configuration;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import org.onap.so.adapters.etsi.sol003.adapter.common.CommonConstants;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-@Configuration
-@EnableResourceServer
 /**
- * Enforces oauth token based authentication when a token is provided in the request.
+ * Enforces oauth (bearer) token based authentication when a token is provided in the request.
+ * <p>
+ * Reimplemented for Spring Security 6 as a {@link SecurityFilterChain} bean. It only applies to requests that carry an
+ * {@code Authorization: Bearer} header AND target the {@code /grants/**} or {@code /lcn/**} endpoints (see
+ * {@link OAuth2ResourceServerRequestMatcher}). Any other request — including {@code /grants} or {@code /lcn} requests
+ * without a bearer token — does not match this chain and therefore falls through to the basic-auth chain
+ * ({@code EtsiSol003AdapterBasicHttpSecurityConfigurer}, ordered after this one).
+ * <p>
+ * The JWTs are validated using the {@code JwtDecoder} bean exposed by {@link AuthorizationServerConfig}, which is backed
+ * by the same JWK source used to sign the tokens issued by the co-located authorization server.
  */
-public class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
+@Configuration
+public class OAuth2ResourceServer {
 
-    @Override
-    public void configure(final HttpSecurity http) throws Exception {
-        http.requestMatcher(new OAuth2ResourceServerRequestMatcher()).authorizeRequests()
-                .antMatchers(CommonConstants.BASE_URL + "/grants/**", CommonConstants.BASE_URL + "/lcn/**")
-                .authenticated();
+    @Bean
+    @Order(0)
+    public SecurityFilterChain resourceServerSecurityFilterChain(final HttpSecurity http) throws Exception {
+        http.securityMatcher(new OAuth2ResourceServerRequestMatcher())
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(CommonConstants.BASE_URL + "/grants/**", CommonConstants.BASE_URL + "/lcn/**")
+                        .authenticated().anyRequest().authenticated())
+                .csrf(csrf -> csrf.disable())
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
+        return http.build();
     }
 
     private static class OAuth2ResourceServerRequestMatcher implements RequestMatcher {
         @Override
-        public boolean matches(HttpServletRequest request) {
-            String auth = request.getHeader("Authorization");
-            String uri = request.getRequestURI();
+        public boolean matches(final HttpServletRequest request) {
+            final String auth = request.getHeader("Authorization");
+            final String uri = request.getRequestURI();
             return (auth != null && auth.startsWith("Bearer") && (uri.contains("/grants") || uri.contains("/lcn/")));
         }
     }

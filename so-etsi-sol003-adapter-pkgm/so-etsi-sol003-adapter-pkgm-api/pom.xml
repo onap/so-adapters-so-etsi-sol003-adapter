@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.onap.so.adapters.so-etsi-sol003-adapter.pkgm</groupId>
         <artifactId>so-etsi-sol003-adapter-pkgm</artifactId>
-        <version>1.12.0-SNAPSHOT</version>
+        <version>1.13.0-SNAPSHOT</version>
     </parent>
     <artifactId>so-etsi-sol003-adapter-pkgm-api</artifactId>
     <name>SO ETSI SOL003 VNF Package Management Adapter API</name>
@@ -130,6 +130,12 @@
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
+            <version>2.4.0-b180725.0427</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
         </dependency>
     </dependencies>
 </project>
