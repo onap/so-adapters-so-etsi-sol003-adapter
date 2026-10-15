@@ -25,7 +25,7 @@
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
-            <plugin>
+<!--             <plugin>
                 <groupId>org.codehaus.groovy.maven</groupId>
                 <artifactId>gmaven-plugin</artifactId>
                 <version>1.0</version>
@@ -55,7 +55,56 @@
                     </execution>
                 </executions>
             </plugin>
+ -->
 
+<!-- Updated groovy maven plugin -->
+            
+       <plugin>
+           <groupId>org.codehaus.gmaven</groupId>
+           <artifactId>groovy-maven-plugin</artifactId>
+           <version>2.1.1</version>
+           <executions>
+             <!-- set absolute base path from super pom -->
+             <execution>
+               <id>find-basepath</id>
+               <phase>validate</phase>
+               <goals>
+                 <goal>execute</goal>
+               </goals>
+               <configuration>
+                 <source>
+                   <![CDATA[
+                       import java.io.File;
+                       log.info('## define projects super pom absolute path through basepath_marker')
+                       String p = "basepath_marker";
+                       File f = null;
+                       if( p != null ) {
+                           def _max_child_poms = 0
+                           while( _max_child_poms++ < 5 ) {
+                               f = new File( p );
+                               if( f.exists() ) {
+                                   break;
+                               }
+                               p = "../" + p;
+                           }
+                       }
+                       if( f != null ) {
+                           String basePath = f.getCanonicalPath();
+                           basePath = basePath.substring( 0, basePath.lastIndexOf( File.separator ) );
+                           project.properties['base-path'] = basePath.replace( '\\' , '/');
+                           log.info(' - used base path = ' + project.properties['base-path'] );
+                       } else {
+                           log.error( 'Could not find basepath_marker marker file!' );
+                           System.stop( 0 );
+                       }
+                   ]]>
+                 </source>
+               </configuration>
+             </execution>
+           </executions>
+         </plugin>    
+
+            
             <plugin>
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
