@@ -30,6 +30,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -37,6 +38,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.onap.so.adapters.etsi.sol003.adapter.common.GsonProvider;
 import org.onap.so.adapters.etsisol003adapter.pkgm.extclients.etsicatalog.model.Checksum;
 import org.onap.so.adapters.etsisol003adapter.pkgm.extclients.etsicatalog.model.ProblemDetails;
 import org.onap.so.adapters.etsisol003adapter.pkgm.extclients.etsicatalog.model.UriLink;
@@ -89,6 +91,7 @@ public class Sol003PackageManagementControllerTest {
     private static final String GET_VNF_PACKAGES_URL = "";
     private static final String GET_VNF_PACKAGE_BY_ID_URL = "/" + VNF_PACKAGE_ID;
     private static final String VNFD_ID = "vnfdId";
+    private static final OffsetDateTime CREATED_AT = OffsetDateTime.parse("2020-01-01T10:15:30+01:00");
     private static final String VNF_PROVIDER = "vnfProvider";
     private static final String VNF_PRODUCT_NAME = "vnfProductName";
     private static final String VNF_SOFTWARE_VERSION = "vnfSoftwareVersion";
@@ -103,7 +106,7 @@ public class Sol003PackageManagementControllerTest {
 
     private MockRestServiceServer mockRestServiceServer;
     private BasicHttpHeadersProvider basicHttpHeadersProvider;
-    private final Gson gson = new Gson();
+    private final Gson gson = new GsonProvider().getGson();
 
     public Sol003PackageManagementControllerTest() {}
 
@@ -172,8 +175,8 @@ public class Sol003PackageManagementControllerTest {
         final HttpEntity<?> request = new HttpEntity<>(basicHttpHeadersProvider.getHttpHeaders());
 
 
-        final ResponseEntity<ProblemDetails> responseEntity =
-                testRestTemplate.exchange(testURL, HttpMethod.GET, request, ProblemDetails.class);
+        final ResponseEntity<ProblemDetails> responseEntity = testRestTemplate.withBasicAuth("test", "test")
+                .exchange(testURL, HttpMethod.GET, request, ProblemDetails.class);
 
         assertTrue(responseEntity.getBody() instanceof ProblemDetails);
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
@@ -275,8 +278,8 @@ public class Sol003PackageManagementControllerTest {
                 .andExpect(method(HttpMethod.GET)).andRespond(withStatus(HttpStatus.UNAUTHORIZED));
 
         final HttpEntity<?> request = new HttpEntity<>(basicHttpHeadersProvider.getHttpHeaders());
-        final ResponseEntity<ProblemDetails> responseEntity =
-                testRestTemplate.exchange(testURL, HttpMethod.GET, request, ProblemDetails.class);
+        final ResponseEntity<ProblemDetails> responseEntity = testRestTemplate.withBasicAuth("test", "test")
+                .exchange(testURL, HttpMethod.GET, request, ProblemDetails.class);
 
         assertNotNull(responseEntity.getBody());
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
@@ -351,6 +354,7 @@ public class Sol003PackageManagementControllerTest {
         assertEquals(VNFD_ID, inlineResponse2001.getVnfdId());
         assertEquals(VNFD_ID, inlineResponse2001.getSoftwareImages().get(0).getId());
         assertEquals(VNF_PRODUCT_NAME, inlineResponse2001.getSoftwareImages().get(0).getName());
+        assertEquals(CREATED_AT, inlineResponse2001.getSoftwareImages().get(0).getCreatedAt());
         assertEquals(ALGORITHM, inlineResponse2001.getChecksum().getAlgorithm());
         assertEquals(HASH, inlineResponse2001.getChecksum().getHash());
         assertEquals(ARTIFACT_PATH, inlineResponse2001.getAdditionalArtifacts().get(0).getArtifactPath());
@@ -436,6 +440,7 @@ public class Sol003PackageManagementControllerTest {
         assertEquals(VNFD_ID, inlineResponse2001.getVnfdId());
         assertEquals(VNFD_ID, inlineResponse2001.getSoftwareImages().get(0).getId());
         assertEquals(VNF_PRODUCT_NAME, inlineResponse2001.getSoftwareImages().get(0).getName());
+        assertEquals(CREATED_AT, inlineResponse2001.getSoftwareImages().get(0).getCreatedAt());
         assertEquals(ALGORITHM, inlineResponse2001.getChecksum().getAlgorithm());
         assertEquals(HASH, inlineResponse2001.getChecksum().getHash());
         assertEquals(ARTIFACT_PATH, inlineResponse2001.getAdditionalArtifacts().get(0).getArtifactPath());
@@ -610,7 +615,7 @@ public class Sol003PackageManagementControllerTest {
     }
 
     private ResponseEntity<ProblemDetails> sendHttpRequest(final String url) {
-        final String testURL = localhostUrl + port + VNFPKGM_BASE_URL + "/" + url;
+        final String testURL = localhostUrl + port + VNFPKGM_BASE_URL + (url.isEmpty() ? "" : "/" + url);
         final HttpEntity<?> request = new HttpEntity<>(basicHttpHeadersProvider.getHttpHeaders());
         return testRestTemplate.withBasicAuth("test", "test").exchange(testURL, HttpMethod.GET, request,
                 ProblemDetails.class);
@@ -653,6 +658,7 @@ public class Sol003PackageManagementControllerTest {
         vnfPackageSoftwareImageInfo.setProvider("");
         vnfPackageSoftwareImageInfo.setVersion("");
         vnfPackageSoftwareImageInfo.setChecksum(createVnfPkgChecksum());
+        vnfPackageSoftwareImageInfo.setCreatedAt(CREATED_AT);
         vnfPackageSoftwareImageInfo
                 .setContainerFormat(VnfPackageSoftwareImageInfo.ContainerFormatEnum.fromValue("AKI"));
         softwareImages.add(vnfPackageSoftwareImageInfo);

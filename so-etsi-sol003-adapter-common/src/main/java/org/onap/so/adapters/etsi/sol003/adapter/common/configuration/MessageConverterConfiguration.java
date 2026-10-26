@@ -21,29 +21,23 @@ package org.onap.so.adapters.etsi.sol003.adapter.common.configuration;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import org.onap.so.adapters.etsi.sol003.adapter.common.GsonProvider;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 /**
  * Configures message converter.
- * <p>
- * The previous custom Gson serializer for the {@code spring-security-oauth2} {@code OAuth2AccessToken} type has been
- * removed: the token endpoint is now served by the Spring Authorization Server, which renders its own token response
- * JSON internally and no longer relies on the application's HTTP message converters.
  */
 @Configuration
 public class MessageConverterConfiguration {
 
     @Bean
-    public HttpMessageConverters customConverters() {
+    public HttpMessageConverters customConverters(final GsonProvider gsonProvider) {
         final Collection<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
-        final Gson gson = new GsonBuilder().create();
-        final GsonHttpMessageConverter gsonHttpMessageConverter = new GsonHttpMessageConverter(gson);
+        final GsonHttpMessageConverter gsonHttpMessageConverter = new GsonHttpMessageConverter(gsonProvider.getGson());
         messageConverters.add(gsonHttpMessageConverter);
         return new HttpMessageConverters(true, messageConverters);
     }

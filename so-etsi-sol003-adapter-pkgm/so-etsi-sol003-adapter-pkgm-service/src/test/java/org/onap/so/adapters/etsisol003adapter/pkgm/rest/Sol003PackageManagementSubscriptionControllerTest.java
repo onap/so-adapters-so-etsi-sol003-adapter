@@ -48,6 +48,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.onap.so.adapters.etsi.sol003.adapter.common.GsonProvider;
 import org.onap.so.adapters.etsisol003adapter.pkgm.PackageManagementConstants;
 import org.onap.so.adapters.etsisol003adapter.pkgm.extclients.etsicatalog.model.BasicAuth;
 import org.onap.so.adapters.etsisol003adapter.pkgm.extclients.etsicatalog.model.LinkSelf;
@@ -95,7 +96,7 @@ import com.google.gson.Gson;
 @ActiveProfiles("test")
 public class Sol003PackageManagementSubscriptionControllerTest {
 
-    private final Gson gson = new Gson();
+    private final Gson gson = new GsonProvider().getGson();
     private final URI msbEndpoint = URI.create("http://msb-iag.onap:80/api/vnfpkgm/v1/subscriptions");
     private static final String _NOTIFICATION_CALLBACK_URI =
             "https://so-vnfm-adapter.onap:30406" + ETSI_SUBSCRIPTION_NOTIFICATION_BASE_URL;
@@ -312,9 +313,9 @@ public class Sol003PackageManagementSubscriptionControllerTest {
                 .andRespond(withSuccess(gson.toJson(buildPkgmSubscription()), MediaType.APPLICATION_JSON));
 
 
-        final ResponseEntity<InlineResponse201> responseEntity =
-                testRestTemplate.postForEntity(LOCALHOST_URL + port + PACKAGE_MANAGEMENT_BASE_URL + "/subscriptions",
-                        request, InlineResponse201.class);
+        final ResponseEntity<InlineResponse201> responseEntity = testRestTemplate.withBasicAuth("test", "test")
+                .postForEntity(LOCALHOST_URL + port + PACKAGE_MANAGEMENT_BASE_URL + "/subscriptions", request,
+                        InlineResponse201.class);
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         assertTrue(responseEntity.hasBody());
