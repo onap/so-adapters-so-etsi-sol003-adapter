@@ -108,11 +108,8 @@ The VNFM adapter exposes a token point at url: https://<hostname>:<port>/oauth/t
 to the VNFM adapter. The username/password to be used in the token request are passed to the VNFM in a subscription request. The username/password sent by the VNFM adpater in the subscription request can be configuered using the 
 following parameter:
 vnfmadapter:
-  auth: <encoded value>
-where <encoded value> is '<username>:<password>' encoded using org.onap.so.utils.CryptoUtils with the key set by the paramter:
-mso:
-  key: <key>
-The default username:password is vnfm-adapter:123456 when vnfm-adapter.auth is not set.
+  auth: <username>:<password>
+The default username:password is vnfm:vnfm when vnfmadapter.auth is not set.
 		  
 ---------------	  
 VNFM simulator:
